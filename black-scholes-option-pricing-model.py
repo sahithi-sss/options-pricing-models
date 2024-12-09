@@ -18,14 +18,12 @@ class BlackScholesGUI:
         self.root.title("Black-Scholes Option Calculator")
         self.root.geometry("1600x900")
         
-        # Set dark theme
         self.root.configure(bg='black')
         self.style = ttk.Style()
         self.style.configure('TFrame', background='black')
         self.style.configure('TLabel', background='black', foreground='white', font=('Arial', 12))
         self.style.configure('TRadiobutton', background='black', foreground='white', font=('Arial', 12))
         
-        # Custom style for entry widgets
         self.style.configure('Custom.TEntry', 
                               background='white', 
                               foreground='black', 
@@ -34,7 +32,6 @@ class BlackScholesGUI:
                        background=[('readonly', 'white')], 
                        fieldbackground=[('readonly', 'white')])
 
-        # Create main frames
         self.sidebar = ttk.Frame(root, padding="10", style='TFrame')
         self.sidebar.pack(side=tk.LEFT, fill=tk.Y)
         
@@ -44,7 +41,6 @@ class BlackScholesGUI:
         self.main_panel = ttk.Frame(root, padding="10", style='TFrame')
         self.main_panel.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
 
-        # Initialize parameters
         self.S = tk.DoubleVar(value=100)  # Stock price
         self.K = tk.DoubleVar(value=100)  # Strike price
         self.T = tk.DoubleVar(value=30)   # Time to maturity
@@ -52,14 +48,13 @@ class BlackScholesGUI:
         self.sigma = tk.DoubleVar(value=20)  # Volatility
         self.option_type = tk.StringVar(value="call")
 
-        # Variables for plot axes selection
         self.plot_params = {
             "Stock Price ($)": (self.S, 1, 1000),
             "Strike Price ($)": (self.K, 1, 1000),
             "Time to Maturity (Days)": (self.T, 1, 365),
             "Interest Rate (%)": (self.r, 1, 30),
             "Volatility (%)": (self.sigma, 1, 250),
-            "Option Price ($)": (None, None, None)  # Special case for calculated value
+            "Option Price ($)": (None, None, None)  
         }
         
         self.x_axis = tk.StringVar(value="Stock Price ($)")
@@ -70,11 +65,9 @@ class BlackScholesGUI:
         self.create_text_panel()
         self.create_main_panel()
         
-        # Initial calculation and plot
         self.update_price()
         
     def create_text_panel(self):
-        # Detailed explanation with mathematical formula
         info_text = """Black-Scholes Option Pricing Model
 
 The Black-Scholes formula calculates the theoretical price of European-style options, considering multiple key financial parameters.
@@ -239,7 +232,6 @@ Developed by Fischer Black, Myron Scholes, and Robert Merton in the early 1970s,
         z_dropdown.pack(side=tk.LEFT)
         z_dropdown.bind('<<ComboboxSelected>>', self.schedule_update)
 
-        # Add Go button
         go_frame = ttk.Frame(self.sidebar, style='TFrame')
         go_frame.pack(pady=20)
         go_button = tk.Button(
@@ -253,7 +245,6 @@ Developed by Fischer Black, Myron Scholes, and Robert Merton in the early 1970s,
         go_button.pack()
 
     def create_main_panel(self):
-        # Price display
         self.price_label = ttk.Label(
             self.main_panel,
             text="Option Price: $0.00",
@@ -262,12 +253,10 @@ Developed by Fischer Black, Myron Scholes, and Robert Merton in the early 1970s,
         )
         self.price_label.pack(pady=20)
 
-        # Create figure for 3D plot with dark theme
         self.fig = plt.Figure(figsize=(8, 6), facecolor='black')
         self.canvas = FigureCanvasTkAgg(self.fig, master=self.main_panel)
         self.canvas.get_tk_widget().pack(fill=tk.BOTH, expand=True)
 
-        # Add navigation toolbar for graph interaction
         self.toolbar = NavigationToolbar2Tk(self.canvas, self.main_panel)
         self.toolbar.update()
         self.toolbar.pack(side=tk.BOTTOM, fill=tk.X)
@@ -324,7 +313,7 @@ Developed by Fischer Black, Myron Scholes, and Robert Merton in the early 1970s,
             z_param = self.z_axis.get()
             
             if len({x_param, y_param, z_param}) < 3:
-                return  # Don't update if parameters are not unique
+                return  
 
             x_var, x_min, x_max = self.plot_params[x_param]
             y_var, y_min, y_max = self.plot_params[y_param]
@@ -385,9 +374,6 @@ Developed by Fischer Black, Myron Scholes, and Robert Merton in the early 1970s,
 def main():
     root = tk.Tk()
     app = BlackScholesGUI(root)
-    #bg = PhotoImage(file = "img.jpeg") 
-    #label1 = Label( root, image = bg)
-    #label1.place(x = 0, y = 0) 
     root.mainloop()
 
 if __name__ == "__main__":
