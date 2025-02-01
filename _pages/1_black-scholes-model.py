@@ -4,6 +4,13 @@ import streamlit as st
 import numpy as np
 import matplotlib.pyplot as plt
 
+# Page configuration
+st.set_page_config(
+    page_title="Black-Scholes Model",
+    page_icon="📈",
+    menu_items={"Get Help": None, "Report a Bug": None, "About": None}
+)
+
 def black_scholes(S, K, T, r, sigma, option_type="call"):
     d1 = (math.log(S / K) + (r + 0.5 * sigma**2) * T) / (sigma * math.sqrt(T))
     d2 = d1 - sigma * math.sqrt(T)
@@ -38,13 +45,6 @@ def generate_heatmap(S_min, S_max, sigma_min, sigma_max):
     ax.set_title("Profitability Heatmap (Green = Profitable, Red = Loss)")
     return fig
 
-# Page configuration
-st.set_page_config(
-    page_title="Black-Scholes Model",
-    page_icon="📈",
-    menu_items={"Get Help": None, "Report a Bug": None, "About": None}
-)
-
 def create_sidebar():
     # Navigation
     selected_model = st.sidebar.selectbox(
@@ -54,9 +54,9 @@ def create_sidebar():
     )
 
     if selected_model == "Binomial Options Pricing Model":
-        st.switch_page("pages/2_binomial-model.py")
+        st.switch_page("_pages/2_binomial-model.py")
     elif selected_model == "Monte Carlo Simulation":
-        st.switch_page("pages/3_monte-carlo-model.py")
+        st.switch_page("_pages/3_monte-carlo-model.py")
 
     # About section
     st.sidebar.header("About Me")

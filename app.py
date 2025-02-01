@@ -6,6 +6,16 @@ st.set_page_config(
     menu_items={"Get Help": None, "Report a Bug": None, "About": None}
 )
 
+st.markdown("""
+    <style>
+        [data-testid="collapsedControl"] {display: none}
+        section[data-testid="stSidebar"] > div:first-child {display: none}
+        .main > div:first-child {display: none}
+    </style>
+""", unsafe_allow_html=True)
+
+
+
 def create_sidebar():
     st.sidebar.header("About Me")
     st.sidebar.markdown("**Sri Sahithi Sunkaranam**")
@@ -32,8 +42,8 @@ selected_model = st.radio(
 # Add a button to navigate to the selected model
 if st.button("Show Model", use_container_width=True):
     if selected_model == "Black-Scholes Model":
-        st.switch_page("pages/1_black-scholes-model.py")
+        st.switch_page("_pages/1_black-scholes-model.py")
     elif selected_model == "Binomial Options Pricing Model":
-        st.switch_page("pages/2_binomial-model.py")
+        st.switch_page("_pages/2_binomial-model.py")
     elif selected_model == "Monte Carlo Simulation":
-        st.switch_page("pages/3_monte-carlo-model.py")
+        st.switch_page("_pages/3_monte-carlo-model.py")
