@@ -133,7 +133,7 @@ st.markdown("""
 - **Risk-free interest rate:** The interest rates are assumed to be constant, hence making the underlying asset a risk-free one.
 """)
 
-st.markdown("---")  # Adds a horizontal line
+st.markdown("---") 
 st.markdown("""
 **About Me**  
 Sri Sahithi Sunkaranam | [LinkedIn](https://www.linkedin.com/in/sri-sahithi-sunkaranam) | [GitHub](https://github.com/sahithi-sss)
