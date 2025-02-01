@@ -142,13 +142,13 @@ Monte Carlo methods rely on simulating multiple random price paths for the under
 ## 📸 Screenshots
 
 ### Black-Scholes Model
-![Black-Scholes Formula](images/BS-call-img.png)
+![Black-Scholes Model Implementation](images/black-scholes-img.png)
 
 ### Binomial Options Pricing Model
-![Binomial Tree](images/binomial-tree.png)
+![Binomial Tree Model Implementation](images/binomial-img.png)
 
 ### Monte Carlo Simulation
-![Monte Carlo Simulation](images/monte-carlo.png)
+![Monte Carlo Simulation](images/monte-carlo-img.png)
 
 ---
 
