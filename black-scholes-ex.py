@@ -40,6 +40,9 @@ def generate_heatmap(S_min, S_max, sigma_min, sigma_max):
 
 st.title("Black-Scholes Option Pricing Calculator")
 
+st.markdown("""***The Black-Scholes option pricing model is a mathematical model used to determine the theoretical price of European-style options. 
+    The model assumes a constant volatility and interest rate and is widely used in financial markets.***""")
+
 # Sidebar for input parameters
 S = st.sidebar.number_input("Current Stock Price (S)", min_value=0.0, value=100.0, step=1.0)
 K = st.sidebar.number_input("Strike Price (K)", min_value=0.0, value=100.0, step=1.0)
@@ -59,3 +62,20 @@ sigma_min = st.sidebar.number_input("Min Volatility (σ_min)", min_value=0.01, v
 sigma_max = st.sidebar.number_input("Max Volatility (σ_max)", min_value=sigma_min+0.01, value=0.5, step=0.01)
 
 generate_heatmap(S_min, S_max, sigma_min, sigma_max)
+
+st.markdown("""---""")
+st.markdown("""***The Black-Scholes-Merton (BSM) model is used for the valuation of stock options. The BSM model is used to determine the fair prices of stock options based on six variables: volatility, type, underlying stock price, strike price, time, and risk-free rate.***""")
+st.image("image.png",caption="Formula for calculating Black-Scholes options pricing")
+if option_type == "put" :
+    st.image("image_put.png",caption="Formula for calculating Black-Scholes PUT options pricing")
+
+st.subheader(""" ***Assumptions of the Black-Scholes-Merton Model*** """)
+
+st.markdown(""" 
+- **Lognormal distribution:** The Black-Scholes-Merton model assumes that stock prices follow a lognormal distribution based on the principle that asset prices cannot take a negative value; they are bounded by zero.
+- **No dividends:** The BSM model assumes that the stocks do not pay any dividends or returns.
+- **Expiration date:** The model assumes that the options can only be exercised on their expiration or maturity date. Hence, it does not accurately price American options. It is extensively used in the European options market.
+- **Random walk:** The stock market is highly volatile, and hence, a state of random walk is assumed as the market direction can never truly be predicted.
+- **Frictionless market:** No transaction costs, including commission and brokerage, are assumed in the BSM model.
+- **Risk-free interest rate:** The interest rates are assumed to be constant, hence making the underlying asset a risk-free one.
+ """)
