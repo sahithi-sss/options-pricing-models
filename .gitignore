@@ -1,9 +1,3 @@
-binomial-options-pricing-model.py
 black-scholes-option-pricing-model.py
 black-scholes.ipynb
-heston-stochastic-volatility-model.py
-merton-jump-diffusion-model.py
 monte-carlo-simulation.py
-option-pricing-gui.py
-tempCodeRunnerFile.py
-trinomial-tree-model.py
