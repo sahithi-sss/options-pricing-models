@@ -117,11 +117,7 @@ st.pyplot(fig)
 st.markdown("""---""")
 st.markdown("""***The Black-Scholes-Merton (BSM) model is used for the valuation of stock options. The BSM model is used to determine the fair prices of stock options based on six variables: volatility, type, underlying stock price, strike price, time, and risk-free rate.***""")
 
-# Display formulas
-st.image("images\BS-call-img.png", caption="Formula for calculating Black-Scholes options pricing")
-if params["option_type"] == "put":
-    st.image("images\BS-put-img.png", caption="Formula for calculating Black-Scholes PUT options pricing")
-
+st.markdown("---")
 st.subheader(""" ***Assumptions of the Black-Scholes-Merton Model*** """)
 
 st.markdown(""" 
