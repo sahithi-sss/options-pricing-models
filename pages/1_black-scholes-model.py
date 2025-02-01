@@ -11,6 +11,9 @@ st.set_page_config(
     menu_items={"Get Help": None, "Report a Bug": None, "About": None}
 )
 
+if st.sidebar.button("🏠 Home", use_container_width=True):
+    st.switch_page("app.py")
+
 def black_scholes(S, K, T, r, sigma, option_type="call"):
     d1 = (math.log(S / K) + (r + 0.5 * sigma**2) * T) / (sigma * math.sqrt(T))
     d2 = d1 - sigma * math.sqrt(T)
@@ -54,15 +57,9 @@ def create_sidebar():
     )
 
     if selected_model == "Binomial Options Pricing Model":
-        st.switch_page("_pages/2_binomial-model.py")
+        st.switch_page("pages/2_binomial-model.py")
     elif selected_model == "Monte Carlo Simulation":
-        st.switch_page("_pages/3_monte-carlo-model.py")
-
-    # About section
-    st.sidebar.header("About Me")
-    st.sidebar.markdown("**Sri Sahithi Sunkaranam**")
-    st.sidebar.markdown("[LinkedIn](https://www.linkedin.com/in/sri-sahithi-sunkaranam)")
-    st.sidebar.markdown("[GitHub](https://github.com/sahithi-sss)")
+        st.switch_page("pages/3_monte-carlo-model.py")
 
     # Initialize parameters dictionary
     params = {}
@@ -135,3 +132,21 @@ st.markdown("""
 - **Frictionless market:** No transaction costs, including commission and brokerage, are assumed in the BSM model.
 - **Risk-free interest rate:** The interest rates are assumed to be constant, hence making the underlying asset a risk-free one.
 """)
+
+st.markdown("---")  # Adds a horizontal line
+st.markdown("""
+**About Me**  
+Sri Sahithi Sunkaranam | [LinkedIn](https://www.linkedin.com/in/sri-sahithi-sunkaranam) | [GitHub](https://github.com/sahithi-sss)
+""")
+
+st.markdown("""
+    <style>
+        [data-testid="collapsedControl"] {display: none}
+        section[data-testid="stSidebar"] > div:first-child {display: none}
+        .main > div:first-child {display: none}
+        button[kind="headerNoPadding"] {display: none}
+        .st-emotion-cache-1dp5vir {display: none}
+        [data-testid="stSidebarNav"] {display: none !important}
+        .st-emotion-cache-16pwjcz {display: none}
+    </style>
+""", unsafe_allow_html=True)
