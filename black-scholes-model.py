@@ -40,6 +40,11 @@ def generate_heatmap(S_min, S_max, sigma_min, sigma_max):
 
 st.title("Black-Scholes Option Pricing Calculator")
 
+st.sidebar.header("About Me")
+st.sidebar.markdown("**Sri Sahithi Sunkaranam**")
+st.sidebar.markdown("[LinkedIn](https://www.linkedin.com/in/sri-sahithi-sunkaranam)")
+st.sidebar.markdown("[GitHub](https://github.com/sahithi-sss)")
+
 st.markdown("""***The Black-Scholes option pricing model is a mathematical model used to determine the theoretical price of European-style options. 
     The model assumes a constant volatility and interest rate and is widely used in financial markets.***""")
 
