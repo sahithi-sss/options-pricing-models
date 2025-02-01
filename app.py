@@ -1,11 +1,18 @@
 import streamlit as st
 
-st.set_page_config(page_title="Options Pricing Models", page_icon="📈",menu_items={"Get Help": None, "Report a Bug": None, "About": None})
+st.set_page_config(
+    page_title="Options Pricing Models",
+    page_icon="📈",
+    menu_items={"Get Help": None, "Report a Bug": None, "About": None}
+)
 
-st.sidebar.header("About Me")
-st.sidebar.markdown("**Sri Sahithi Sunkaranam**")
-st.sidebar.markdown("[LinkedIn](https://www.linkedin.com/in/sri-sahithi-sunkaranam)")
-st.sidebar.markdown("[GitHub](https://github.com/sahithi-sss)")
+def create_sidebar():
+    st.sidebar.header("About Me")
+    st.sidebar.markdown("**Sri Sahithi Sunkaranam**")
+    st.sidebar.markdown("[LinkedIn](https://www.linkedin.com/in/sri-sahithi-sunkaranam)")
+    st.sidebar.markdown("[GitHub](https://github.com/sahithi-sss)")
+
+create_sidebar()
 
 st.title("Options Pricing Models")
 
@@ -16,14 +23,17 @@ st.markdown("""
     </div>
 """, unsafe_allow_html=True)
 
-selected_model = st.selectbox("Select an Options Pricing Model", 
-                            ["Black-Scholes Model", "Binomial Options Pricing Model", "Monte Carlo Simulation"],
-                            index=0, key="main_dropdown")
+# Create radio buttons for model selection
+selected_model = st.radio(
+    "Select an Options Pricing Model",
+    ["Black-Scholes Model", "Binomial Options Pricing Model", "Monte Carlo Simulation"]
+)
 
-# Redirect to the respective page
-if selected_model == "Black-Scholes Model":
-    st.switch_page("pages/black-scholes-model.py")
-elif selected_model == "Binomial Options Pricing Model":
-    st.switch_page("pages/binomial-model.py")
-elif selected_model == "Monte Carlo Simulation":
-    st.switch_page("pages/monte-carlo-model.py")
+# Add a button to navigate to the selected model
+if st.button("Show Model", use_container_width=True):
+    if selected_model == "Black-Scholes Model":
+        st.switch_page("pages/1_black-scholes-model.py")
+    elif selected_model == "Binomial Options Pricing Model":
+        st.switch_page("pages/2_binomial-model.py")
+    elif selected_model == "Monte Carlo Simulation":
+        st.switch_page("pages/3_monte-carlo-model.py")
