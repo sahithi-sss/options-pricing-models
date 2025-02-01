@@ -40,6 +40,17 @@ def generate_heatmap(S_min, S_max, sigma_min, sigma_max):
 
 st.title("Black-Scholes Option Pricing Calculator")
 
+selected_model = st.sidebar.selectbox("Navigate to", 
+                                      ["Black Scholes Option Pricing Model","Binomial Options Pricing Model", "Monte Carlo Simulation"],
+                                      index=0)
+
+if selected_model == "Black Scholes Option Pricing Model":
+    st.switch_page("pages/black-scholes-model.py")
+elif selected_model == "Binomial Options Pricing Model":
+    st.switch_page("pages/binomial-model.py")
+elif selected_model == "Monte Carlo Simulation":
+    st.switch_page("pages/monte-carlo-model.py")
+
 st.sidebar.header("About Me")
 st.sidebar.markdown("**Sri Sahithi Sunkaranam**")
 st.sidebar.markdown("[LinkedIn](https://www.linkedin.com/in/sri-sahithi-sunkaranam)")
@@ -70,9 +81,9 @@ generate_heatmap(S_min, S_max, sigma_min, sigma_max)
 
 st.markdown("""---""")
 st.markdown("""***The Black-Scholes-Merton (BSM) model is used for the valuation of stock options. The BSM model is used to determine the fair prices of stock options based on six variables: volatility, type, underlying stock price, strike price, time, and risk-free rate.***""")
-st.image("image.png",caption="Formula for calculating Black-Scholes options pricing")
+st.image("BS-call-img.png",caption="Formula for calculating Black-Scholes options pricing")
 if option_type == "put" :
-    st.image("image_put.png",caption="Formula for calculating Black-Scholes PUT options pricing")
+    st.image("BS-put-img.png",caption="Formula for calculating Black-Scholes PUT options pricing")
 
 st.subheader(""" ***Assumptions of the Black-Scholes-Merton Model*** """)
 
