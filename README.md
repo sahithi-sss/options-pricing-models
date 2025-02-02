@@ -6,7 +6,7 @@ A **Streamlit-based web application** designed to provide comprehensive tools fo
 
 1. **Black-Scholes Model**
 2. **Binomial Options Pricing Model**
-3. **Monte Carlo Simulation**
+3. **Trinomial Option Pricing Model**
 
 This application is ideal for financial analysts, traders, and students interested in understanding and visualizing option pricing theories.
 
@@ -31,7 +31,7 @@ This application is ideal for financial analysts, traders, and students interest
 
 - **Interactive UI**: User-friendly interface for inputting parameters and switching between models.
 - **Dynamic Visualization**: Heatmaps for visualizing the effect of stock price and volatility on option pricing.
-- **Multi-Model Navigation**: Seamless switching between Black-Scholes, Binomial, and Monte Carlo models.
+- **Multi-Model Navigation**: Seamless switching between Black-Scholes, Binomial, and Trinomial models.
 - **Custom Configurations**: Adjust model parameters like volatility, interest rate, and time to maturity.
 - **Real-Time Calculations**: Instant display of calculated option prices and profitability.
 
@@ -44,6 +44,7 @@ This application is ideal for financial analysts, traders, and students interest
 - **NumPy**: For numerical computations.
 - **SciPy**: Statistical functions used in the Black-Scholes model.
 - **Matplotlib**: For heatmap visualizations.
+- **Seaborn**: For enhanced heatmap visualizations.
 
 ---
 
@@ -83,7 +84,7 @@ streamlit run app.py
 2. Use the **sidebar** to select between models:
    - **Black-Scholes Model**
    - **Binomial Options Pricing Model**
-   - **Monte Carlo Simulation**
+   - **Trinomial Option Pricing Model**
 3. Input relevant parameters:
    - Current Stock Price (S)
    - Strike Price (K)
@@ -104,7 +105,7 @@ option-pricing-models/
 |├── pages/
 |│   |├── 1_black-scholes-model.py     # Black-Scholes model implementation
 |│   |├── 2_binomial-model.py           # Binomial options pricing model
-|│   └── 3_monte-carlo-model.py        # Monte Carlo simulation model
+|│   └── 3_trinomial-model.py          # Trinomial option pricing model
 |├── images/                      # Images used in the application
 |├── requirements.txt              # Python dependencies
 └── README.md                    # Project documentation
@@ -132,13 +133,13 @@ The Binomial model provides a flexible method for option pricing by simulating p
   - Risk-neutral valuation applied
   - Can price both European and American options
 
-### 3. **Monte Carlo Simulation**
-Monte Carlo methods rely on simulating multiple random price paths for the underlying asset and averaging the discounted payoff.
+### 3. **Trinomial Option Pricing Model**
+The Trinomial model extends the Binomial model by allowing three possible price movements at each step: up, down, or unchanged, providing more accurate pricing.
 
 - **Assumptions:**
-  - Stock prices follow a stochastic process (often Geometric Brownian Motion)
+  - Stock prices can move up, down, or remain the same in each time step
   - Risk-neutral valuation applied
-  - Suitable for complex derivatives
+  - Suitable for both European and American options
 
 ---
 
@@ -150,8 +151,8 @@ Monte Carlo methods rely on simulating multiple random price paths for the under
 ### Binomial Options Pricing Model
 ![Binomial Tree Model Implementation](images/binomial-img.png)
 
-### Monte Carlo Simulation
-![Monte Carlo Simulation](images/monte-carlo-img.png)
+### Trinomial Option Pricing Model
+![Trinomial Model Implementation](images/trinomial-img.png)
 
 ---
 
@@ -166,7 +167,7 @@ Contributions are welcome! Please follow these steps:
 5. Push to the branch (`git push origin feature-branch`).
 6. Create a Pull Request.
 
---- 
+---
 
 ## 🚀 Deployment
 
@@ -182,3 +183,4 @@ The application is live and accessible at: [https://options-pricing-models-sss.s
 ---
 
 > This application is designed for educational purposes and should not be used for actual financial trading or investment decisions.
+
