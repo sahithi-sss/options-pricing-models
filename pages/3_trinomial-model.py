@@ -13,44 +13,50 @@ st.set_page_config(
 if st.sidebar.button("🏠 Home", use_container_width=True):
     st.switch_page("app.py")
 
-def binomial_model(S, K, T, r, sigma, N, option_type="call"):
+def trinomial_model(S, K, T, r, sigma, N, option_type="call"):
     dt = T / N  # Time step
-    u = np.exp(sigma * np.sqrt(dt))  # Up factor
+    u = np.exp(sigma * np.sqrt(2 * dt))  # Up factor
     d = 1 / u  # Down factor
-    p = (np.exp(r * dt) - d) / (u - d)  # Risk-neutral probability
+    m = 1  # Middle (no change)
+    p_u = ((np.exp(r * dt / 2) - np.exp(-sigma * np.sqrt(dt / 2))) / (np.exp(sigma * np.sqrt(dt / 2)) - np.exp(-sigma * np.sqrt(dt / 2))))**2
+    p_d = ((np.exp(sigma * np.sqrt(dt / 2)) - np.exp(r * dt / 2)) / (np.exp(sigma * np.sqrt(dt / 2)) - np.exp(-sigma * np.sqrt(dt / 2))))**2
+    p_m = 1 - p_u - p_d  # Middle probability
     
-    stock_prices = np.zeros((N + 1, N + 1))
-    option_values = np.zeros((N + 1, N + 1))
+    stock_prices = np.zeros((2 * N + 1, N + 1))
+    option_values = np.zeros((2 * N + 1, N + 1))
     
-    for i in range(N + 1):
-        for j in range(i + 1):
-            stock_prices[j, i] = S * (u ** (i - j)) * (d ** j)
+    for i in range(2 * N + 1):
+        stock_prices[i, N] = S * (u ** (i - N))
     
     if option_type == "call":
         option_values[:, N] = np.maximum(stock_prices[:, N] - K, 0)
     else:
         option_values[:, N] = np.maximum(K - stock_prices[:, N], 0)
     
-    for i in range(N - 1, -1, -1):
-        for j in range(i + 1):
-            option_values[j, i] = np.exp(-r * dt) * (p * option_values[j, i + 1] + (1 - p) * option_values[j + 1, i + 1])
+    for j in range(N - 1, -1, -1):
+        for i in range(1, 2 * j + 1):
+            option_values[i, j] = np.exp(-r * dt) * (
+                p_u * option_values[i + 1, j + 1] +
+                p_m * option_values[i, j + 1] +
+                p_d * option_values[i - 1, j + 1]
+            )
     
-    return option_values[0, 0]
+    return option_values[N, 0]
 
-def generate_heatmap(S_min, S_max, sigma_min, sigma_max, K, T, r,sigma, N, option_type):
+def generate_heatmap(S_min, S_max, sigma_min, sigma_max, S, K, T, r, sigma, N, option_type):
     S_range = np.linspace(S_min, S_max, 10)
     sigma_range = np.linspace(sigma_min, sigma_max, 10)
     prices = np.zeros((len(S_range), len(sigma_range)))
     
     for i, S in enumerate(S_range):
         for j, sigma in enumerate(sigma_range):
-            prices[i, j] = binomial_model(S, K, T, r, sigma,N, option_type)
-
+            prices[i, j] = trinomial_model(S, K, T, r, sigma, N, option_type)
+    
     fig, ax = plt.subplots(figsize=(10, 6))
     sns.heatmap(prices, yticklabels=np.round(S_range, 2), xticklabels=np.round(sigma_range, 2), annot=True, fmt=".2f", ax=ax)
     ax.set_xlabel("Volatility (σ)")
     ax.set_ylabel("Stock Price (S)")
-    ax.set_title("Binomial Option Pricing Model")
+    ax.set_title("Trinomial Option Pricing Model")
     return fig
 
 def create_sidebar():
@@ -63,8 +69,8 @@ def create_sidebar():
 
     if selected_model == "Black Scholes Option Pricing Model":
         st.switch_page("pages/1_black-scholes-model.py")
-    elif selected_model == "Trinomial Options Pricing Model":
-        st.switch_page("pages/3_trinomial-model.py")
+    elif selected_model == "Binomial Options Pricing Model":
+        st.switch_page("pages/2_binomial-model.py")
 
     # Initialize parameters dictionary
     params = {}
@@ -88,16 +94,13 @@ def create_sidebar():
 
     return params
 
-# Main content
-st.title("Binomial Options Pricing Calculator")
+st.title("Trinomial Multi-Step Option Pricing Calculator")
 
-st.markdown("""***The Binomial Options Pricing Model is a numerical method for valuing options by simulating different possible paths that the underlying asset price can take.***""")
+st.markdown("""***The trinomial option pricing model is an option pricing model incorporating three possible values that an underlying asset can have in one time period. The three possible values the underlying asset can have in a time period may be greater than, the same as, or less than the current value.***""")
 
-# Get parameters from sidebar
 params = create_sidebar()
 
-# Calculate and display option price
-price = binomial_model(
+price = trinomial_model(
     float(params["S"]),
     float(params["K"]),
     float(params["T"]),
@@ -106,6 +109,7 @@ price = binomial_model(
     int(params["N"]),  # Ensure N is an integer
     params["option_type"]
 )
+
 st.success(f"The {params['option_type']} option price(according to given input parameters) is: ${price:.2f}")
 
 # Generate and display heatmap
@@ -114,24 +118,24 @@ fig = generate_heatmap(
     float(params["S_max"]),
     float(params["sigma_min"]),
     float(params["sigma_max"]),
+    float(params["S"]),
     float(params["K"]),
     float(params["T"]),
     float(params["r"]),
-    float(params["sigma"]),  # Missing sigma argument added
-    int(params["N"]),        # Ensure N is an integer
-    params["option_type"]    # Add this missing argument
+    float(params["sigma"]),
+    int(params["N"]),
+    params["option_type"]
 )
 st.pyplot(fig)
 
-# Additional information
 st.markdown("""---""")
-st.subheader(""" ***Assumptions of the Binomial Model*** """)
+st.subheader(""" ***Assumptions of the Trinomial Model*** """)
 
 st.markdown(""" 
-- **Discrete Time N:** The Binomial Model assumes the price of the underlying asset can only move up or down by a fixed factor in each time step.
+- **Three Possible Movements:** The Trinomial Model assumes the underlying asset price can move up, down, or stay the same in each time step.
 - **Risk-Neutral Valuation:** It uses a risk-neutral measure to discount future payoffs.
 - **No Arbitrage:** The model assumes no arbitrage opportunities exist in the market.
-- **Constant Volatility:** The volatility of the underlying asset is assumed to remain constant over the option's life.
+- **Improved Stability:** The Trinomial Model is more stable than the Binomial Model, especially for large steps.
 - **European and American Options:** The model can price both European and American options.
 """)
 

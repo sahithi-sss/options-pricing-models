@@ -53,14 +53,14 @@ def create_sidebar():
     # Navigation
     selected_model = st.sidebar.selectbox(
         "Navigate to",
-        ["Black Scholes Option Pricing Model", "Binomial Options Pricing Model", "Monte Carlo Simulation"],
+        ["Black Scholes Option Pricing Model", "Binomial Options Pricing Model", "Trinomial Options Pricing Model"],
         index=0
     )
 
     if selected_model == "Binomial Options Pricing Model":
         st.switch_page("pages/2_binomial-model.py")
-    elif selected_model == "Monte Carlo Simulation":
-        st.switch_page("pages/3_monte-carlo-model.py")
+    elif selected_model == "Trinomial Options Pricing Model":
+        st.switch_page("pages/3_trinomial-model.py")
 
     # Initialize parameters dictionary
     params = {}
