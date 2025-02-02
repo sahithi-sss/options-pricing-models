@@ -5,7 +5,7 @@ import seaborn as sns
 
 # Page configuration
 st.set_page_config(
-    page_title="Binomial Options Pricing Model",
+    page_title="Trinomial Options Pricing Model",
     page_icon="📈",
     menu_items={"Get Help": None, "Report a Bug": None, "About": None}
 )
@@ -64,7 +64,7 @@ def create_sidebar():
     selected_model = st.sidebar.selectbox(
         "Navigate to",
         ["Black Scholes Option Pricing Model", "Binomial Options Pricing Model", "Trinomial Options Pricing Model"],
-        index=1
+        index=2
     )
 
     if selected_model == "Black Scholes Option Pricing Model":
@@ -137,6 +137,7 @@ st.markdown("""
 - **No Arbitrage:** The model assumes no arbitrage opportunities exist in the market.
 - **Improved Stability:** The Trinomial Model is more stable than the Binomial Model, especially for large steps.
 - **European and American Options:** The model can price both European and American options.
+- **Constant volatility:** The volatility of the underlying asset is assumed to be constant throughout the option's life.
 """)
 
 st.markdown("""---""")
