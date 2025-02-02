@@ -42,9 +42,9 @@ def generate_heatmap(S_min, S_max, sigma_min, sigma_max, K, T, r,sigma, N, optio
     sigma_range = np.linspace(sigma_min, sigma_max, 10)
     prices = np.zeros((len(S_range), len(sigma_range)))
     
-    for i, S in enumerate(S_range):
-        for j, sigma in enumerate(sigma_range):
-            prices[i, j] = binomial_model(S, K, T, r, sigma,N, option_type)
+    for i, S_val in enumerate(S_range):
+        for j, sigma_val in enumerate(sigma_range):
+            prices[i, j] = binomial_model(S_val, K, T, r, sigma_val,N, option_type)
 
     fig, ax = plt.subplots(figsize=(10, 6))
     sns.heatmap(prices, yticklabels=np.round(S_range, 2), xticklabels=np.round(sigma_range, 2), annot=True, fmt=".2f", ax=ax)

@@ -18,27 +18,34 @@ def trinomial_model(S, K, T, r, sigma, N, option_type="call"):
     u = np.exp(sigma * np.sqrt(2 * dt))  # Up factor
     d = 1 / u  # Down factor
     m = 1  # Middle (no change)
-    p_u = ((np.exp(r * dt / 2) - np.exp(-sigma * np.sqrt(dt / 2))) / (np.exp(sigma * np.sqrt(dt / 2)) - np.exp(-sigma * np.sqrt(dt / 2))))**2
-    p_d = ((np.exp(sigma * np.sqrt(dt / 2)) - np.exp(r * dt / 2)) / (np.exp(sigma * np.sqrt(dt / 2)) - np.exp(-sigma * np.sqrt(dt / 2))))**2
+    
+    # Fixed probability calculations
+    p_u = (np.exp(r * dt) - np.exp(-sigma * np.sqrt(dt))) / (np.exp(sigma * np.sqrt(dt)) - np.exp(-sigma * np.sqrt(dt))) / 2
+    p_d = p_u
     p_m = 1 - p_u - p_d  # Middle probability
     
+    # Initialize arrays with correct dimensions
     stock_prices = np.zeros((2 * N + 1, N + 1))
     option_values = np.zeros((2 * N + 1, N + 1))
     
-    for i in range(2 * N + 1):
-        stock_prices[i, N] = S * (u ** (i - N))
+    # Calculate stock price tree
+    for j in range(N + 1):
+        for i in range(2 * j + 1):
+            stock_prices[N - j + i, j] = S * (u ** (j - i))
     
+    # Calculate terminal option values
     if option_type == "call":
         option_values[:, N] = np.maximum(stock_prices[:, N] - K, 0)
     else:
         option_values[:, N] = np.maximum(K - stock_prices[:, N], 0)
     
+    # Backward induction
     for j in range(N - 1, -1, -1):
-        for i in range(1, 2 * j + 1):
-            option_values[i, j] = np.exp(-r * dt) * (
-                p_u * option_values[i + 1, j + 1] +
-                p_m * option_values[i, j + 1] +
-                p_d * option_values[i - 1, j + 1]
+        for i in range(2 * j + 1):
+            option_values[N - j + i, j] = np.exp(-r * dt) * (
+                p_u * option_values[N - j + i - 1, j + 1] +
+                p_m * option_values[N - j + i, j + 1] +
+                p_d * option_values[N - j + i + 1, j + 1]
             )
     
     return option_values[N, 0]
@@ -48,10 +55,11 @@ def generate_heatmap(S_min, S_max, sigma_min, sigma_max, S, K, T, r, sigma, N, o
     sigma_range = np.linspace(sigma_min, sigma_max, 10)
     prices = np.zeros((len(S_range), len(sigma_range)))
     
-    for i, S in enumerate(S_range):
-        for j, sigma in enumerate(sigma_range):
-            prices[i, j] = trinomial_model(S, K, T, r, sigma, N, option_type)
+    for i, S_val in enumerate(S_range):
+        for j, sigma_val in enumerate(sigma_range):
+            prices[i, j] = trinomial_model(S_val, K, T, r, sigma_val, N, option_type)
     
+    prices = prices.T
     fig, ax = plt.subplots(figsize=(10, 6))
     sns.heatmap(prices, yticklabels=np.round(S_range, 2), xticklabels=np.round(sigma_range, 2), annot=True, fmt=".2f", ax=ax)
     ax.set_xlabel("Volatility (σ)")
